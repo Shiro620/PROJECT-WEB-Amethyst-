@@ -1,0 +1,22 @@
+# Зависимости Node.js
+node_modules/
+
+# База данных SQLite
+*.db
+*.db-journal
+amethyst.db
+burmalda.db
+
+# Пользовательские загрузки аудио и обложек
+uploads/*
+!uploads/.gitkeep
+
+# Логи и отладка
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Системные файлы ОС
+.DS_Store
+Thumbs.db
+desktop.ini
