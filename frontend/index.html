@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amethyst Music — Музыкальный портал</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a0a1a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(106, 13, 173, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(138, 43, 226, 0.5); }
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 40px;
+            background: rgba(15, 5, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(106, 13, 173, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-size: 1.6em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6a0dad, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-brand .logo-icon {
+            font-size: 1.4em;
+            -webkit-text-fill-color: #da70d6;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #b19cd9;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .nav-links a:hover {
+            color: #e0e0e0;
+            background: rgba(106, 13, 173, 0.3);
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, #6a0dad, #8a2be2);
+            color: #fff;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: #da70d6;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 40px 80px;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-icon {
+            font-size: 4em;
+            animation: float 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6a0dad, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: #d8bfd8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features */
+        .section {
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #b19cd9;
+            margin-bottom: 50px;
+            font-size: 1.05em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .feature-card {
+            background: rgba(30, 10, 40, 0.7);
+            border: 1px solid rgba(106, 13, 173, 0.2);
+            border-radius: 15px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 10px 30px rgba(106, 13, 173, 0.3);
+        }
+
+        .feature-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2em;
+            color: #da70d6;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #b19cd9;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        /* Quick Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            animation: fadeIn 1s ease 0.5s both;
+        }
+
+        .action-card {
+            background: rgba(40, 10, 50, 0.5);
+            border: 1px solid rgba(106, 13, 173, 0.2);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(218, 112, 214, 0.5);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+        }
+
+        .action-card .action-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .action-card h3 {
+            font-size: 1.3em;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .action-card p {
+            color: #b19cd9;
+            font-size: 0.95em;
+        }
+
+        .action-card .arrow {
+            display: inline-block;
+            margin-top: 15px;
+            color: #da70d6;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            animation: fadeIn 1s ease 0.7s both;
+        }
+
+        .stat-card {
+            background: rgba(30, 10, 40, 0.7);
+            border: 1px solid rgba(106, 13, 173, 0.2);
+            border-radius: 15px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(138, 43, 226, 0.6);
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6a0dad, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #b19cd9;
+            margin-top: 8px;
+            font-size: 1.05em;
+        }
+
+        .stat-icon {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(106, 13, 173, 0.2);
+            color: #b19cd9;
+            background: rgba(10, 5, 15, 0.5);
+        }
+
+        .footer .footer-brand {
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6a0dad, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 0.9em;
+            color: #8a7a9a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(15, 5, 20, 0.97);
+                padding: 15px;
+                border-bottom: 1px solid rgba(106, 13, 173, 0.3);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 12px 20px;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 60px 20px 50px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .section {
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .features-grid,
+            .actions-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <span class="logo-icon">♫</span>
+            <span>Amethyst Music</span>
+        </a>
+        <div class="hamburger" onclick="this.classList.toggle('active'); document.getElementById('navLinks').classList.toggle('open')">
+            <span></span><span></span><span></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="active">Главная</a></li>
+            <li><a href="music.html">Моя музыка</a></li>
+            <li><a href="artists.html">Исполнители</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <span class="hero-icon">♫</span>
+        <h1>Добро пожаловать в Amethyst Music</h1>
+        <p>Ваш персональный музыкальный рай</p>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+        <h2 class="section-title">Возможности</h2>
+        <p class="section-subtitle">Всё, что нужно для идеального музыкального опыта</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="icon">🎵</span>
+                <h3>Обширная библиотека</h3>
+                <p>Загружайте и организуйте свою музыку. Поддержка всех популярных форматов.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🔀</span>
+                <h3>Умное перемешивание</h3>
+                <p>Случайные треки и плейлисты. Режим Shuffle для разнообразия.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🎨</span>
+                <h3>Стильный дизайн</h3>
+                <p>Приятное оформление для комфортного прослушивания.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">⚡</span>
+                <h3>Быстрая работа</h3>
+                <p>Оптимизированный плеер работает плавно даже на слабых устройствах.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="section">
+        <h2 class="section-title">Быстрый доступ</h2>
+        <p class="section-subtitle">Перейдите к нужному разделу в один клик</p>
+        <div class="actions-grid">
+            <a href="music.html" class="action-card">
+                <span class="action-icon">🎧</span>
+                <h3>Моя музыка</h3>
+                <p>Загружайте треки, создавайте плейлисты и наслаждайтесь музыкой</p>
+                <span class="arrow">→</span>
+            </a>
+            <a href="artists.html" class="action-card">
+                <span class="action-icon">🎤</span>
+                <h3>Исполнители</h3>
+                <p>Узнайте больше о любимых артистах и их дискографии</p>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="section">
+        <h2 class="section-title">Статистика</h2>
+        <p class="section-subtitle">Наша музыкальная коллекция в цифрах</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">🎤</span>
+                <div class="stat-number" id="statArtists">—</div>
+                <div class="stat-label">Исполнителей</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">💿</span>
+                <div class="stat-number" id="statAlbums">—</div>
+                <div class="stat-label">Альбомов</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🎵</span>
+                <div class="stat-number" id="statTracks">—</div>
+                <div class="stat-label">Треков</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-brand">♫ Amethyst Music</div>
+        <p>© 2024 Amethyst Music. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Load statistics from API
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/artists');
+                const artists = await response.json();
+
+                const artistCount = artists.length;
+                let albumCount = 0;
+                let trackCount = 0;
+
+                // Fetch full details for each artist to count albums and tracks
+                const details = await Promise.all(
+                    artists.map(a => fetch(`/api/artists/${a.id}`).then(r => r.json()).catch(() => null))
+                );
+
+                details.forEach(artist => {
+                    if (artist && artist.albums) {
+                        albumCount += artist.albums.length;
+                        artist.albums.forEach(album => {
+                            if (album.tracks) {
+                                trackCount += album.tracks.length;
+                            }
+                        });
+                    }
+                });
+
+                // If tracks weren't nested in artist details, try fetching albums individually
+                if (trackCount === 0 && albumCount > 0) {
+                    const albumIds = [];
+                    details.forEach(artist => {
+                        if (artist && artist.albums) {
+                            artist.albums.forEach(album => albumIds.push(album.id));
+                        }
+                    });
+                    const albumDetails = await Promise.all(
+                        albumIds.map(id => fetch(`/api/albums/${id}`).then(r => r.json()).catch(() => null))
+                    );
+                    albumDetails.forEach(album => {
+                        if (album && album.tracks) {
+                            trackCount += album.tracks.length;
+                        }
+                    });
+                }
+
+                animateNumber('statArtists', artistCount);
+                animateNumber('statAlbums', albumCount);
+                animateNumber('statTracks', trackCount);
+            } catch (err) {
+                console.error('Ошибка загрузки статистики:', err);
+                document.getElementById('statArtists').textContent = '0';
+                document.getElementById('statAlbums').textContent = '0';
+                document.getElementById('statTracks').textContent = '0';
+            }
+        }
+
+        function animateNumber(elId, target) {
+            const el = document.getElementById(elId);
+            if (target === 0) { el.textContent = '0'; return; }
+            let current = 0;
+            const step = Math.max(1, Math.floor(target / 30));
+            const interval = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(interval);
+                }
+                el.textContent = current;
+            }, 40);
+        }
+
+        loadStats();
+    </script>
+    <script src="player.js"></script>
+</body>
+</html>
